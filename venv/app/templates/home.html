@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<style>
+
+.btn{
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+    background-color: #b01f2e;
+    color: white;
+    opacity: 0.85;
+    font-size: 3.5vw;
+  }
+  
+ .btn:hover {
+    /* font-size: 3.75vw; */
+    background-color: #b01f2e;
+    opacity: 1;
+    color: white;
+  }
+
+</style>
+
+
+<div class="text-center">
+    <div class="btn-group">
+
+        <form method="post">
+            <br><br>
+            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Meal Booking" name="home_action"><br><br>
+            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Housekeeping" name="home_action"><br><br>
+            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Maintenance Request" name="home_action"><br><br>
+            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Manage Requests" name="home_action">
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+<style>
+    h1 {text-align: center;}
+
+    #submit_btn{
+            margin-right: auto;
+            margin-left: auto;
+            background-color:white;
+            font-size: 1.25vw;
+            transition:0.2s;
+            border-color:#cccccc;
+        }
+    
+    #submit_btn:hover{
+            background-color:#072D54;
+            color:white;
+            opacity: 0.85;
+        }
+    </style>
+
+<h1>Enter Login Details</h1><br>
+<form method="post">
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        {{ wtf.quick_form(form) }}
+
+        <button type="submit" class="btn btn-light" id="submit_btn" name="login_action", value="Sign In">Sign In</button> 
+<br><br>
+New to TDI? <a href="{{ url_for('register') }}">Click Here to Register!</a>
+</div>
+</div>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Hello {{ id.name }}</h3>
+
+
+            <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+
+            
+{% endblock %}

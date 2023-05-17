@@ -1,0 +1,25 @@
+<h2>Maintenance</h2>
+  <table id="admin_maintenance" class="table table-striped text-center" id="main_table">
+    <form method="post" id="main">
+    <thead>
+      <tr>
+        <th class="text-center">Date</th>
+        <th class="text-center">Time</th>
+        <th class="text-center">Flat</th>
+        <th class="text-center">Body</th>
+        <th class="text-center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in main_requests %}
+        <tr>
+          <td>{{ request.date }}</td>
+          <td>{{ request.time }}</td>
+          <td>{{ request.flat }}</td>
+          <td>{{ request.body }}</td>
+          <td><button type="submit" class="btn btn-light" name="admin_action" id="btn" value="m{{ request.id }}">Close</button></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </form>
+  </table>

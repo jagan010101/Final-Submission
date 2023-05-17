@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+<style>
+h1 {text-align: center;}
+
+#book_btn{
+    margin-right: auto;
+    margin-left: auto;
+    background-color:white;
+    font-size: 2vw;
+    transition:0.2s;
+    border-color:#cccccc;
+}
+
+#book_btn:hover{
+    background-color:#072D54;
+    color:white;
+    opacity: 0.85; 
+}
+
+#cancel_btn{
+    margin-right: auto;
+    margin-left: auto;
+    background-color:white;
+    font-size: 2vw;
+    transition:0.2s;
+    border-color:#cccccc;
+}
+
+#cancel_btn:hover{
+    background-color:#b01f2e;
+    color:white;
+    opacity: 0.85;
+}
+
+#menu_btn{
+    margin-right: auto;
+    margin-left: auto;
+    background-color:white;
+    font-size: 1vw;
+    transition:0.2s;
+    border-color:#cccccc;
+}
+
+#menu_btn:hover{
+    background-color:#072D54;
+    color:white;
+    opacity: 0.85;
+}
+
+#overlay{
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+#overlay.active{
+    opacity: 1;
+    pointer-events: all;
+}
+
+.popup{
+    position: fixed;
+    left: 50%; 
+    top: 50%;
+    z-index: 10;
+    cursor: pointer;
+    background: #ffffff;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    text-align: center;
+    color: #072D54;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 500 px;
+    transform: translate(-50%, -50%) scale(0);
+    visibility: hidden;
+}
+    
+.open-popup{
+    visibility: visible;
+    top: 50%;
+    transform:  translate(-50%, -50%) scale(1) ; 
+}
+
+#menu{
+    width: 90vw;
+    height: 90vh;
+}
+
+.popup-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+     
+.popup-header .title{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: black;
+}
+#closeButton{
+    font-size: 2.5em;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    color: black;
+}
+
+</style>
+
+
+<form method = "post">
+<h1>Book Your Meal</h1>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+
+    <button type="button" class="btn btn-light" id="menu_btn" onclick = "openPopup()">Weekly Menu</button>
+    
+<p></p>
+<div class = "popup" id = "popup">
+    <div class = "popup-header">
+        <div class ="title">Weekly Menu</div>
+        <button type = "button" class="btn btn-light" id = "closeButton" onclick = "closePopup()">&times;</button>
+    </div>
+        <iframe id = 'menu' src = "static/menu.pdf" frameborder = '0'></iframe>
+</div>
+
+        {{ wtf.quick_form(form) }}
+
+        <br>
+    <div style="display:flex; justify-content:flex-end; width:100%; padding:0;">
+
+        <button type="submit" class="btn btn-light" id="cancel_btn" name="mealbooking_action" value="Cancel">Cancel</button>
+        <button type = "submit" class = "btn btn-light" id = "book_btn" name="mealbooking_action" value="Submit">Submit</button>
+
+    </div>
+    </div>
+</div>
+
+    <div id = 'overlay'></div>
+
+</form>
+
+
+<script>
+
+const overlay = document.getElementById('overlay')
+let popup = document.getElementById("popup");
+
+function openPopup(){
+  popup.classList.add("open-popup");
+  overlay.classList.add('active');
+}
+
+function closePopup(){
+  popup.classList.remove("open-popup");
+  overlay.classList.remove('active');
+}
+
+var mealDate = document.getElementById("meal_date");
+var breakfast = document.getElementById("breakfast");
+var lunch = document.getElementById("lunch");
+var snacks = document.getElementById("snacks");
+var dinner = document.getElementById("dinner");
+var remarks = document.getElementById("remarks");
+var today = document.getElementById("today");
+var access = document.getElementById("access");
+var submit = document.getElementById("book_btn");
+
+access = access.value;
+
+var breakfastValue = '';
+var lunchValue = '';
+var snacksValue = '';
+var dinnerValue = '';
+
+submit.disabled = true;
+
+if(today.value == mealDate.value){
+
+    breakfast.disabled = true;
+
+if (access[4] == 0){
+    lunch.disabled = true;
+};
+
+if (access[7] == 0){
+    snacks.disabled = true;
+};
+
+if (access[10] == 0){
+    dinner.disabled = true;
+};
+};
+
+mealDate.addEventListener("change", (e) =>{
+    breakfast.disabled = false;
+    lunch.disabled = false;
+    snacks.disabled = false;
+    dinner.disabled = false;
+
+if(today.value == e.currentTarget.value){
+
+    breakfast.disabled = true;
+
+    if (access[4] == 0){
+        lunch.disabled = true;
+    };
+
+    if (access[7] == 0){
+        snacks.disabled = true;
+    };
+
+    if (access[10] == 0){
+        dinner.disabled = true;
+    };
+    };
+
+    if(today.value < e.currentTarget.value){
+    breakfast.disabled = false;
+    lunch.disabled = false;
+    snacks.disabled = false;
+    dinner.disabled = false;
+    }
+
+    if(today.value > e.currentTarget.value){
+    breakfast.disabled = true;
+    lunch.disabled = true;
+    snacks.disabled = true;
+    dinner.disabled = true;
+    }
+});
+
+
+breakfast.addEventListener("change", (e) =>{
+    breakfastValue = e.currentTarget.value;
+    if (breakfastValue == '' && lunchValue == '' && snacksValue == '' && dinnerValue==''){
+    submit.disabled = true;
+    }
+
+else{
+    submit.disabled = false;
+    }
+});
+
+lunch.addEventListener("change", (f) => {
+    lunchValue = f.currentTarget.value;
+    if (breakfastValue == '' && lunchValue == '' && snacksValue == '' && dinnerValue==''){
+    submit.disabled = true;
+    }
+
+else{
+    submit.disabled = false;
+    }
+});
+
+snacks.addEventListener("change", (g) => {
+    snacksValue = g.currentTarget.value;
+    if (breakfastValue == '' && lunchValue == '' && snacksValue == '' && dinnerValue==''){
+    submit.disabled = true;
+    }
+
+else{
+    submit.disabled = false;
+    }
+});
+
+dinner.addEventListener("change", (h) => {
+    dinnerValue = h.currentTarget.value;
+    if (breakfastValue == '' && lunchValue == '' && snacksValue == '' && dinnerValue==''){
+    submit.disabled = true;
+    }
+
+else{
+    submit.disabled = false;
+    }
+});
+</script>
+
+{% endblock %}

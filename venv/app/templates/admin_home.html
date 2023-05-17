@@ -1,0 +1,144 @@
+
+{% extends "admin_base_table.html" %}
+
+{% block content %}
+
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
+  window.onload = function() {
+      const main = document.getElementById("main")
+      const main_table = document.getElementById("admin_maintenance")
+      const mainID = document.getElementById("mbtn").value
+      /* var id = $("#btn").val()
+      $.ajax({
+        url: '/process-table',
+        type: 'POST',
+        data: {'id': id},
+        success: function (response){
+        }
+      }) */
+
+      main.onsubmit = function (event) {
+      event.preventDefault();
+
+      fetch("/admin_home_page Ashoka_University_Off_Campus_Residence TDI_LAKE_GROVE", {
+        method: "GET"
+      })
+
+      .then(() => {
+      fetch("/process-table?" + new URLSearchParams({mainID: 'mainID'}), { 
+        method: "POST"
+      })
+
+      .then(response =>{
+        return response.text();
+      })
+
+      .then(html => {
+        main_table.innerHTML = html
+      })
+
+     })
+    }
+  }
+</script>
+ -->
+<style>
+  h2 {text-align: center;}
+
+  #btn{
+      background-color:#b01f2e;
+      transition:0.2s;
+      color:white;
+      opacity:0.7;
+  }
+  
+  #btn:hover{
+      background-color:#b01f2e;
+      color:white;
+      opacity: 0.85;
+  }
+  
+  thead{
+      background-color: #b01f2e;
+      opacity: 0.85;
+  }
+  thead th{
+      font-size: 20px;
+      color:white;
+      }
+
+  #meal{
+    background: #072D54;
+    opacity: 0.8;
+    display: flex;
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    }
+  </style>
+
+
+<h2>Housekeeping</h2>
+  <table id="admin_housekeeping" class="table table-striped text-center">
+    <form method="post">
+    <thead>
+      <tr>
+        <th class="text-center">Date</th>
+        <th class="text-center">Time</th>
+        <th class="text-center">Name</th>
+        <th class="text-center">Flat</th>
+        <th class="text-center">Time Slot</th>
+        <th class="text-center">Body</th>
+        <th class="text-center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in hk_requests %}
+        <tr>
+          <td>{{ request.date }}</td>
+          <td>{{ request.time }}</td>
+          <td>{{ request.name }}</td>
+          <td>{{ request.flat }}</td>
+          <td>{{ request.time_slot }}</td>
+          <td>{{ request.body }}</td>
+          <td><button type="submit" class="btn btn-light" name="admin_action" id="btn" value="h{{ request.id }}">Close</button></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </form>
+  </table>
+
+<br>
+
+  <h2>Maintenance</h2>
+  <form method="post" id="main">
+
+  <table id="admin_maintenance" class="table table-striped text-center">
+    
+    <thead>
+      <tr>
+        <th class="text-center">Date</th>
+        <th class="text-center">Time</th>
+        <th class="text-center">Name</th>
+        <th class="text-center">Flat</th>
+        <th class="text-center">Body</th>
+        <th class="text-center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in main_requests %}
+        <tr>
+          <td>{{ request.date }}</td>
+          <td>{{ request.time }}</td>
+          <td>{{ request.name }}</td>
+          <td>{{ request.flat }}</td>
+          <td>{{ request.body }}</td>
+          <td><button type="submit" class="btn btn-light" name="admin_action" id="btn" value="m{{ request.id }}">Close</button></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+
+{% endblock %}

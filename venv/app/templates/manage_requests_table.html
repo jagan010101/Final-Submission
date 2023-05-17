@@ -1,0 +1,167 @@
+
+{% extends "base_table.html" %}
+
+{% block content %}
+<style>
+#edit, #popupEdit{
+  background-color:#072D54;
+  transition:0.2s;
+  color:white;
+  opacity:0.7;
+}
+
+#edit:hover, #popupEdit:hover{
+  background-color:#072D54;
+  color:white;
+  opacity: 0.85;
+}
+
+#cancel, #popupCancel{
+    background-color:#b01f2e;
+    transition:0.2s;
+    color:white;
+    opacity:0.7;
+}
+
+#cancel:hover, #popupCancel:hover{
+    background-color:#b01f2e;
+    color:white;
+    opacity: 0.85;
+}
+
+thead{
+    background-color: #b01f2e;
+    opacity: 0.85;
+}
+
+thead th{
+    font-size: 20px;
+    color:white;
+}
+
+#overlay{
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+#overlay.active{
+    opacity: 1;
+    pointer-events: all;
+}
+
+.popup{
+    position: fixed;
+    left: 50%; 
+    top: 50%;
+    z-index: 10;
+    cursor: pointer;
+    background: #ffffff;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    text-align: center;
+    color: #072D54;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 500 px;
+    transform: translate(-50%, -50%) scale(0);
+    visibility: hidden;
+}
+    
+.open-popup{
+    visibility: visible;
+    top: 50%;
+    transform:  translate(-50%, -50%) scale(1) ; 
+}
+
+.popup h2{
+    padding: 10px 15px;
+}
+    
+.popup button{
+    margin-right: auto;
+    margin-left: auto;
+    width: 25%;
+    font-size: 2vw;
+    background: #072D54;
+    opacity: 0.85;
+    color: #ffffff;
+}
+
+</style>
+
+  <table id="manage_requests" class="table table-striped text-center">
+    <form method="post">
+    <thead>
+      <tr>
+        <th class="text-center">Type</th>
+        <th class="text-center">Date</th>
+        <th class="text-center">Time</th>
+        <th class="text-center">Body</th>
+        <th class="text-center">Status</th>
+        <th class="text-center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in requests %}
+        <tr>
+          <td>{{ request.type }}</td>
+          <td>{{ request.date }}</td>
+          <td>{{ request.time }}</td>
+          <td>{{ request.body }}</td>
+          <td>{{ request.status }}</td>
+          <td> 
+            {% if request.status == "Pending" -%}
+            <button type="submit" class="btn btn-light" name="manage_req_action" id="edit" value="e{{ request.id }}">Edit</button>
+            <button type="button" class="btn btn-light" id="cancel" value="{{ request.id }}" onclick="openPopup(value)">Cancel</button>
+
+            <div class = "popup" id = "popup">
+          
+              <h2>Are you sure you want to cancel this request?<h2>
+
+
+              <div style="display:flex; justify-content:flex-end; width:100%; padding:0;">
+
+              <button type="button" class="btn btn-light" id="popupEdit" onclick="closePopup()">No</button>
+              <button type="submit" class="btn btn-light" id="popupCancel" name="manage_req_action">Yes</button>
+            
+            </div>      
+            </div>
+       
+            {%- endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </form>
+  </table>
+
+  <div id = 'overlay'></div>
+
+
+<script>
+
+const overlay = document.getElementById('overlay')
+let popup = document.getElementById("popup");
+
+function openPopup(value){
+  document.getElementById('popupCancel').value = 'c'+value;
+  popup.classList.add("open-popup");
+  overlay.classList.add('active')
+}
+
+function closePopup(){
+  popup.classList.remove("open-popup");
+  overlay.classList.remove('active')
+}
+
+</script>
+
+{% endblock %}

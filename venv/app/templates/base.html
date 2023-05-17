@@ -1,0 +1,73 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}{{ title }} {% else %} Welcome to TDI Lake Grove {% endif %}
+{% endblock %}
+
+{% block navbar %}
+{% if current_user.name != None %}
+{% if not current_user.is_anonymous %}
+<style>
+    #nav{
+        opacity: 0.85;
+        height: 6.5rem;
+    }
+
+    .navbar-brand{
+        font-size: 2.5vw;
+        color: white;
+        vertical-align: middle;
+    }
+
+    .navbar-brand:hover{
+        color: white;
+        opacity: 0.8;
+    }
+    
+    #bs-example-navbar-collapse-1 li a{
+        font-size: 2.5vw;
+        color: white;
+        vertical-align: middle;
+    }
+
+    #bs-example-navbar-collapse-1 li a:hover{
+        Background-color: #072D54;
+        opacity: 0.8;
+    }
+</style>
+    <nav class="navbar navbar-light transparent" id ="nav" style="background-color: #072D54;">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('home') }}">Home</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url_for('edit_profile', id=current_user.ashoka_id) }}">Profile</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<style>
+
+h2 {text-align: center;}
+    
+#modify{
+    margin-right: auto;
+    margin-left: auto;
+    background-color:white;
+    font-size: 2vw;
+    transition:0.2s;
+    border-color:#cccccc;
+}
+
+#modify:hover{
+    background-color:#072D54;
+    color:white;
+    opacity: 0.85;
+}
+
+#cancel{
+    margin-right: auto;
+    margin-left: auto;
+    background-color:white;
+    font-size: 2vw;
+    transition:0.2s;
+    border-color:#cccccc;
+}
+
+#cancel:hover{
+    background-color:#b01f2e;
+    color:white;
+    opacity: 0.85;
+}
+
+</style>
+
+<form method="post">
+<h2>Modify Houskeeping Request</h2><br>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        {{ wtf.quick_form(form) }} <br>
+
+        <div style="display:flex; justify-content:flex-end; width:100%; padding:0;">
+
+        <button type="submit" class="btn btn-light" id="cancel" name="action" value="back">Back</button>
+        <button type="submit" class="btn btn-light" id="modify" name="action" value="modify">Modify</button>
+        </div>
+    </div>
+</div>
+</form>
+
+<script>
+    var timeSlot = document.getElementById("time_slot");
+    var remarks = document.getElementById("remarks");
+    var originalRemarks = remarks.value;
+    var modify = document.getElementById("modify");
+
+    modify.disabled = true;
+
+    timeSlot.addEventListener("change", (e) =>{
+        modify.disabled = false;
+        });
+
+    remarks.addEventListener("keyup", (e) =>{
+        if (e.currentTarget.value != originalRemarks){
+                modify.disabled = false;
+            }});
+</script>
+
+
+{% endblock %}

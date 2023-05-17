@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+<style>
+    h1 {text-align: center;}
+    
+    #submit_btn{
+            padding-left: 2vw;
+            padding-right: 2vw;
+            margin-right: auto;
+            margin-left: auto;
+            background-color:white;
+            font-size: 2vw;
+            transition:0.2s;
+            border-color:#cccccc;
+        }
+    
+    #submit_btn:hover{
+            background-color:#072D54;
+            color:white;
+            opacity: 0.85;
+        }
+     
+    #cancel_btn{
+            margin-right: auto;
+            margin-left: auto;
+            background-color:white;
+            font-size: 2vw;
+            transition:0.2s;
+            border-color:#cccccc;
+        }
+        
+    #cancel_btn:hover{
+            background-color:#b01f2e;
+            color:white;
+            opacity: 0.85;
+        }
+    </style>
+
+<h1>Edit Profile Details</h1>
+<form method='post'>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+
+        {{ wtf.quick_form(form) }}
+
+        <div style="display:flex; justify-content:flex-end; width:100%; padding:0;">
+        
+            <button type="submit" class="btn btn-light" id="cancel_btn" name="edit_profile_action" value="Cancel">Cancel</button>      
+            <button type="submit" class="btn btn-light" id="submit_btn" name="edit_profile_action" value="Submit">Submit</button>    
+                
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}
