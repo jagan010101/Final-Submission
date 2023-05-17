@@ -127,7 +127,7 @@ def admin_meal():
     from app import app, db
     from app.models import Mealbooking
     today = datetime.strptime(datetime.now().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
-    result = Mealbooking.query.filter_by(meal_date = today+timedelta(1)).all()
+    result = Mealbooking.query.filter_by(meal_date = today).all()
     list_ashoka_id = []
     list_breakfast = []
     list_lunch = []
