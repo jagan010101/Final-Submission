@@ -6,89 +6,6 @@
 <style>
 h1 {text-align: center;}
 
-.btn{
-    margin: 0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    padding: 10px 60px;
-    background: #fff;
-    border: 0;
-    outline: none;
-    font-size: 22px ;
-    font-weight: 500;
-    border-radius: 30px;
-}
-.popup{
-    margin: 0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    width: 400px;
-    background: #fff;
-    border-radius: 6px;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.1);
-    text-align: center;
-    padding: 0 30px 30 px;
-    color: #333;
-    visibility: hidden;
-    transition: transform 0.2s,top 0.2s;
-}
-
-.open-popup{
-    background-color: #9c9c9c;
-    margin: 0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    visibility: visible;
-    top: 50%;
-    transform:  translate(-50%, -50%) scale(1) ;
-
-}
-.popup img{
-    margin: 0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    width: 100px;
-    margin-top: -50px;
-    border-radius: 50%;
-    box-shadow: 0 2px 5 px rgba(0, 0, 0, 0.2);
-}
-
-.popup h2{
-    margin: 0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    font-size: 38px;
-    font-weight: 500;
-    margin: 30px 0 10px;
-}
-
-.popup button{
-    margin: 0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    width: 100%;
-    margin-top: 50px ;
-    padding: 10px 0;
-    background: #6fd649;
-    color: #fff;
-    border: 0;
-    outline: none;
-    font-size: 18px;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-
-}
-
 #book_btn{
         margin-right: auto;
         margin-left: auto;
@@ -128,24 +45,9 @@ h1 {text-align: center;}
         <div style="display:flex; justify-content:flex-end; width:100%; padding:0;">
         
             <button type="submit" class="btn btn-light" id="cancel_btn" name="maintenance_action" value="Cancel">Cancel</button>      
-            <button type="button" class="btn" id="book_btn" name="maintenance_action" onclick="openPopup()" value="Submit">Submit</button>    
-            <div class="popup" id="popup">
-                <img src="tickimage.png">
-                <h2>Thank You!</h2>
-                <p>Your meal has been booked</p>
-                <button type="button" onclick="closePopup()">OK</button>
+            <button type="submit" class="btn btn-light" id="book_btn" name="maintenance_action" value="Submit">Submit</button>    
+
             </div>
-            <script>
-                let popup = document.getElementById("popup");
-            
-                function openPopup(){
-                    popup.classList.add("open-popup");
-                }
-                function closePopup(){
-                    popup.classList.remove("open-popup");
-                }
-                
-            </script>
         </div>
         
         </div>
