@@ -235,8 +235,8 @@ def edit_profile(id):
             if form.validate_on_submit():
                 current_user.name = form.name.data
                 current_user.room = form.room.data
-                current_user.ashoka_id = form.ashoka_id.data
-                current_user.ashoka_email=form.ashoka_email.data     
+                #current_user.ashoka_id = form.ashoka_id.data
+                #current_user.ashoka_email=form.ashoka_email.data     
                 current_user.flat=str(form.flat.data) + " " + str(request.form.get('floor'))
                 db.session.commit()
                 flash('Your profile has been updated')

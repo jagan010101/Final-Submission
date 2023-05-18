@@ -40,8 +40,8 @@ class UserDetailsForm(FlaskForm):
 
 class EditProfileForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    ashoka_email=StringField('Ashoka Email', validators=[DataRequired(), Email()])
-    ashoka_id=IntegerField('Ashoka ID', validators=[DataRequired()]) 
+    ashoka_email=StringField('Ashoka Email')
+    ashoka_id=IntegerField('Ashoka ID') 
     flat=IntegerField('Flat Number', validators=[DataRequired(), NumberRange(min=119,max=180)])
     floor=SelectField('Floor', choices=[('GF','Ground Floor'),('FF','First Floor'),('SF','Second Floor'),('TF','Third Floor'),('Duplex','Duplex')],validators=[DataRequired()])
     room=IntegerField('Room Number', validators=[DataRequired(), NumberRange(min=1,max=4)])
@@ -53,12 +53,12 @@ class EditProfileForm(FlaskForm):
         if len(user)!=0:
             raise ValidationError('Ashoka ID already exists')
         
-    def validate_ashoka_email(self, ashoka_email):
-        user_mail = User.query.filter_by(ashoka_email=ashoka_email.data).all()
-        if current_user in user_mail:
-            user_mail.remove(current_user)
-        if len(user_mail)!=0:
-            raise ValidationError('Ashoka email already exists')
+    #def validate_ashoka_email(self, ashoka_email):
+    #    user_mail = User.query.filter_by(ashoka_email=ashoka_email.data).all()
+    #    if current_user in user_mail:
+    #        user_mail.remove(current_user)
+    #    if len(user_mail)!=0:
+    #        raise ValidationError('Ashoka email already exists')
 
 
 class MealForm(FlaskForm):
