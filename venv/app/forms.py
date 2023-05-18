@@ -33,7 +33,7 @@ class UserDetailsForm(FlaskForm):
     submit=SubmitField('Continue')  
 
     def validate_ashoka_email(self, ashoka_email):
-        user = User.query.filter_by(ashoka_email=ashoka_email.data).first()
+        user = User.query.filter_by(ashoka_email = (ashoka_email.data).lower()).first()
         if user is not None:
             raise ValidationError('Email already exists')
         
