@@ -120,6 +120,7 @@ thead th{
           <td> 
             {% if request.status == "Pending" -%}
             <button type="submit" class="btn btn-light" name="manage_req_action" id="edit" value="e{{ request.id }}">Edit</button>
+            {% if request.type != "Mealbooking" -%}
             <button type="button" class="btn btn-light" id="cancel" value="{{ request.id }}" onclick="openPopup(value)">Cancel</button>
 
             <div class = "popup" id = "popup">
@@ -134,7 +135,7 @@ thead th{
             
             </div>      
             </div>
-       
+            {%- endif %}
             {%- endif %}
           </td>
         </tr>

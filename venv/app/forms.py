@@ -12,7 +12,6 @@ class LogInForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    #ashoka_email = StringField('Ashoka Email ID', validators=[DataRequired(), Email()])
     ashoka_id = IntegerField('Ashoka ID', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])

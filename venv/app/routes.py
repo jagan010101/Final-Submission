@@ -115,19 +115,15 @@ def today_meal():
         return redirect(url_for('login'))
     
 
-#@app.route('/admin_home_page Ashoka_University_Off_Campus_Residence TDI_LAKE_GROVE meal' , methods=['GET', 'POST'])
-#@login_required
 def admin_meal():
-    #if current_user.ashoka_id != 1000:
-    #    logout_user()
-    #    return redirect(url_for('login'))
     
     from app import app
     app.app_context().push()
-    #from app import app, db
     from app.models import Mealbooking
     today = datetime.strptime(datetime.now().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
+
     result = Mealbooking.query.filter_by(meal_date = today).all()
+
     list_ashoka_id = []
     list_breakfast = []
     list_lunch = []
@@ -150,8 +146,10 @@ def admin_meal():
 
     df = pd.DataFrame.from_records(data)
 
-    #replacement_dict = {'Snacks': 1, 'With Eggs': 1, 'Without Eggs': 1, 'Vegetarian': 1, 'Non - Vegetarian': 1}
-    #replaced_df = df.replace(replacement_dict)
+    replacement_dict = {'Snacks': 1, 'With Eggs': 1, 'Without Eggs': 1, 'Vegetarian': 1, 'Non - Vegetarian': 1}
+    replaced_df = df.replace(replacement_dict)
+    sum_meal = replaced_df.groupby('ashoka_id').agg({'breakfast': 'sum', 'lunch': 'sum', 'snacks': 'sum', 'dinner':'sum'}).reset_index()
+    
     breakfast_with_eggs = df['Breakfast'].value_counts().get('With Eggs')
     breakfast_without_eggs = df['Breakfast'].value_counts().get('Without Eggs')
     lunch_vegetarian = df['Lunch'].value_counts().get('Vegetarian')
@@ -179,19 +177,84 @@ def admin_meal():
         prefix = 'dinner'
 
     filename = f'{prefix}_{today}.xlsx'
+
     final_today.to_excel(r'/Users/jaganathapandiyan/Desktop/Apps/working folder/venv/app/Meal Folder/'+filename, index=False)
 
     recipient = 'jaganathapandiyan12@gmail.com'
+
     subject = prefix+'_'+str(today)
+
     attachment = '/Users/jaganathapandiyan/Desktop/Apps/working folder/venv/app/Meal Folder/'+filename
 
     msg = Message(subject=subject, sender=app.config['MAIL_USERNAME'], recipients=[recipient])
+    
     with app.open_resource(attachment) as file:
         msg.attach(filename=filename, content_type='application/pdf', data=file.read())
     mail.send(msg)
     
-    return 'Email sent successfully.'
-      
+    print ('Daily email sent successfully')
+    return
+
+def admin_meal_monthly():
+    from app import app
+    app.app_context().push()
+    from app.models import Mealbooking
+
+    result = Mealbooking.query.all()
+
+    list_ashoka_id = []
+    list_breakfast = []
+    list_lunch = []
+    list_snacks = []
+    list_dinner = []
+    list_meal_date = []
+
+    for item in result:
+        list_meal_date+= [item.meal_date]
+        list_ashoka_id+= [item.ashoka_id]
+        list_breakfast+= [item.breakfast]
+        list_lunch+= [item.lunch]
+        list_snacks+= [item.snacks]
+        list_dinner+= [item.dinner]
+    
+    data = {'Meal Date': list_meal_date,
+        'Ashoka ID': list_ashoka_id,
+        'Breakfast': list_breakfast,
+        'Lunch': list_lunch,
+        'Snacks': list_snacks,
+        'Dinner': list_dinner
+        }
+
+    df = pd.DataFrame.from_records(data)
+
+    df['Month'] = df['Meal Date'].apply(lambda x: int(x[5:7]))
+    month_filter = df[df['Month'] == datetime.now().month]
+
+    replacement_dict = {'Snacks': 1, 'With Eggs': 1, 'Without Eggs': 1, 'Vegetarian': 1, 'Non - Vegetarian': 1, '':0}
+    replaced_df = month_filter.replace(replacement_dict)
+    sum_meal = replaced_df.groupby('Ashoka ID').agg({'Breakfast': 'sum', 'Lunch': 'sum', 'Snacks': 'sum', 'Dinner':'sum'}).reset_index()
+    
+    date = datetime.now().date() + timedelta(-1)
+
+    filename = f'{date}.xlsx'
+
+    sum_meal.to_excel(r'/Users/jaganathapandiyan/Desktop/Apps/working folder/venv/app/Meal Folder/'+filename, index=False)
+
+    recipient = 'jaganathapandiyan12@gmail.com'
+
+    subject = 'monthly_'+str(date)
+
+    attachment = '/Users/jaganathapandiyan/Desktop/Apps/working folder/venv/app/Meal Folder/'+filename
+
+    msg = Message(subject=subject, sender=app.config['MAIL_USERNAME'], recipients=[recipient])
+    
+    with app.open_resource(attachment) as file:
+        msg.attach(filename=filename, content_type='application/pdf', data=file.read())
+    mail.send(msg)
+    
+    print ('Monthly email sent successfully')
+    return
+
 
 #@app.route("/process-table", methods=["GET", "POST"])
 #def process_table():

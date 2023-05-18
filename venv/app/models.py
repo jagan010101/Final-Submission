@@ -42,7 +42,6 @@ class Mealbooking(db.Model):
     time = db.Column(db.String, index=True)
     type = db.Column(db.String, index=True, default='Mealbooking')
     status = db.Column(db.String, index=True, default='Pending')
-    #mobile_number = db.Column(db.String(20), nullable=False)
     breakfast = db.Column(db.String, nullable=True)
     lunch = db.Column(db.String, nullable=True)
     snacks = db.Column(db.String, nullable=True)
