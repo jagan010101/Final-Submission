@@ -23,13 +23,16 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError('Ashoka ID already exists')
         
+        if len(str(ashoka_id.data)) != 10:
+            raise ValidationError('Enter a valid Ashoka ID')
+        
         
 class UserDetailsForm(FlaskForm):
     name=StringField('Name', validators=[DataRequired()])
     ashoka_email=StringField('Ashoka Email', validators=[DataRequired(), Email()])    
-    flat=IntegerField('Flat Number', validators=[DataRequired(), NumberRange(min=119,max=180)])
+    flat=IntegerField('Flat Number', validators=[DataRequired()])
     floor=SelectField('Floor', choices=[('GF','Ground Floor'),('FF','First Floor'),('SF','Second Floor'),('TF','Third Floor'),('Duplex','Duplex')],validators=[DataRequired()])
-    room=IntegerField('Room Number', validators=[DataRequired(), NumberRange(min=1,max=4)])
+    room=IntegerField('Room Number', validators=[DataRequired()])
     submit=SubmitField('Continue')  
 
     def validate_ashoka_email(self, ashoka_email):
@@ -37,21 +40,38 @@ class UserDetailsForm(FlaskForm):
         if user is not None:
             raise ValidationError('Email already exists')
         
+    def validate_flat(self, flat):
+        if flat.data < 119 or flat.data > 180:
+            raise ValidationError('Enter a flat number from 119 to 180')
+        
+    def validate_room(self, room):
+        if room.data < 1 or room.data > 4:
+            raise ValidationError('Please enter a room number from 1 to 4')
+
+        
 
 class EditProfileForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     ashoka_email=StringField('Ashoka Email')
     ashoka_id=IntegerField('Ashoka ID') 
-    flat=IntegerField('Flat Number', validators=[DataRequired(), NumberRange(min=119,max=180)])
+    flat=IntegerField('Flat Number', validators=[DataRequired()])
     floor=SelectField('Floor', choices=[('GF','Ground Floor'),('FF','First Floor'),('SF','Second Floor'),('TF','Third Floor'),('Duplex','Duplex')],validators=[DataRequired()])
-    room=IntegerField('Room Number', validators=[DataRequired(), NumberRange(min=1,max=4)])
+    room=IntegerField('Room Number', validators=[DataRequired()])
 
-    def validate_ashoka_id(self, ashoka_id):
-        user = User.query.filter_by(ashoka_id=ashoka_id.data).all()
-        if current_user in user:
-            user.remove(current_user)
-        if len(user)!=0:
-            raise ValidationError('Ashoka ID already exists')
+    def validate_flat(self, flat):
+        if flat.data < 119 or flat.data > 180:
+            raise ValidationError('Enter a flat number from 119 to 180')
+        
+    def validate_room(self, room):
+        if room.data < 1 or room.data > 4:
+            raise ValidationError('Enter a room number from 1 to 4')
+
+    #def validate_ashoka_id(self, ashoka_id):
+    #    user = User.query.filter_by(ashoka_id=ashoka_id.data).all()
+    #    if current_user in user:
+    #        user.remove(current_user)
+    #    if len(user)!=0:
+    #        raise ValidationError('Ashoka ID already exists')
         
     #def validate_ashoka_email(self, ashoka_email):
     #    user_mail = User.query.filter_by(ashoka_email=ashoka_email.data).all()
