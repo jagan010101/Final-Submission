@@ -148,7 +148,6 @@ def admin_meal():
 
     replacement_dict = {'Snacks': 1, 'With Eggs': 1, 'Without Eggs': 1, 'Vegetarian': 1, 'Non - Vegetarian': 1}
     replaced_df = df.replace(replacement_dict)
-    sum_meal = replaced_df.groupby('ashoka_id').agg({'breakfast': 'sum', 'lunch': 'sum', 'snacks': 'sum', 'dinner':'sum'}).reset_index()
     
     breakfast_with_eggs = df['Breakfast'].value_counts().get('With Eggs')
     breakfast_without_eggs = df['Breakfast'].value_counts().get('Without Eggs')
@@ -167,11 +166,11 @@ def admin_meal():
     final_today = pd.DataFrame(data_today)
 
     hour = datetime.now().hour
-    if hour < 10:
+    if hour == 0:
         prefix = 'breakfast'
-    elif hour >= 10 and hour < 14:
+    elif hour == 10:
         prefix = 'lunch'
-    elif hour >= 14 and hour < 17:
+    elif hour == 14:
         prefix = 'snacks'
     else:
         prefix = 'dinner'
@@ -238,13 +237,13 @@ def admin_meal_monthly():
 
     filename = f'{date}.xlsx'
 
-    sum_meal.to_excel(r'/Users/jaganathapandiyan/Desktop/Apps/working folder/venv/app/Meal Folder/'+filename, index=False)
+    sum_meal.to_excel(r'/Users/jaganathapandiyan/Desktop/Apps/working folder/venv/app/Meal Folder/Meal Folder'+filename, index=False)
 
     recipient = 'jaganathapandiyan12@gmail.com'
 
     subject = 'monthly_'+str(date)
 
-    attachment = '/Users/jaganathapandiyan/Desktop/Apps/working folder/venv/app/Meal Folder/'+filename
+    attachment = '/Users/jaganathapandiyan/Desktop/Apps/working folder/venv/app/Meal Folder/Meal Folder'+filename
 
     msg = Message(subject=subject, sender=app.config['MAIL_USERNAME'], recipients=[recipient])
     
