@@ -145,9 +145,6 @@ def admin_meal():
         }
 
     df = pd.DataFrame.from_records(data)
-
-    replacement_dict = {'Snacks': 1, 'With Eggs': 1, 'Without Eggs': 1, 'Vegetarian': 1, 'Non - Vegetarian': 1}
-    replaced_df = df.replace(replacement_dict)
     
     breakfast_with_eggs = df['Breakfast'].value_counts().get('With Eggs')
     breakfast_without_eggs = df['Breakfast'].value_counts().get('Without Eggs')
@@ -193,6 +190,7 @@ def admin_meal():
     
     print ('Daily email sent successfully')
     return
+
 
 def admin_meal_monthly():
     from app import app

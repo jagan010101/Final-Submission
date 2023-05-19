@@ -35,4 +35,3 @@ scheduler.add_job(admin_meal, 'cron', day_of_week= 'mon-sun', hour = 14, minute 
 scheduler.add_job(admin_meal, 'cron', day_of_week= 'mon-sun', hour = 17, minute = 1, id = 'dinner_schedule')
 scheduler.add_job(admin_meal_monthly, 'cron', day = 1, hour = 0, id = 'monthly_data')
 scheduler.start()
-
