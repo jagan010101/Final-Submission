@@ -1,5 +1,4 @@
-# Final Submission
- Files for final submission
+# Residence App
 
 Admin Login Details
 Ashoka ID: 1000
