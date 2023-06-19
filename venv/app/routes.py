@@ -5,7 +5,6 @@ from app.forms import LogInForm, RegistrationForm, UserDetailsForm, MealForm, Ed
 from app.models import User, Housekeeping, Maintenance, Requests, Mealbooking
 from flask_login import current_user, login_user, logout_user, login_required
 from datetime import date, datetime, timedelta
-from werkzeug.urls import url_parse
 from flask.globals import request
 import pandas as pd
 from flask_mail import Message
@@ -253,18 +252,18 @@ def admin_meal_monthly():
     return
 
 
-#@app.route("/process-table", methods=["GET", "POST"])
-#def process_table():
-#        mainID = request.args.get('mainID')    
-#        req = Maintenance.query.filter_by(id = mainID[1:]).first()
-#        user_req = Requests.query.filter_by(id = req.ref).first()
-#        user_req.status = "Completed"
-#        db.session.delete(req)
-#        db.session.commit()
-#        main_req = Maintenance.query.all()
-#        main_req.reverse()
-#
-#        return(render_template("process-table.html", main_requests=main_req))
+@app.route("/process-table", methods=["GET", "POST"])
+def process_table():
+       mainID = request.args.get('mainID')    
+       req = Maintenance.query.filter_by(id = mainID[1:]).first()
+       user_req = Requests.query.filter_by(id = req.ref).first()
+       user_req.status = "Completed"
+       db.session.delete(req)
+       db.session.commit()
+       main_req = Maintenance.query.all()
+       main_req.reverse()
+
+       return(render_template("process-table.html", main_requests=main_req))
 
 
 @app.route('/edit_profile/<id>', methods=['GET', 'POST'])

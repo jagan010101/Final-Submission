@@ -4,13 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
-from flask_mail import Mail, Message
-from flask_apscheduler import APScheduler
+from flask_mail import Mail
 from apscheduler.schedulers.background import BackgroundScheduler
 
-app=Flask(__name__)
+app = Flask(__name__)
 app.config.from_object(Config)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///db.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 login = LoginManager(app)
 login.login_view = 'login'
